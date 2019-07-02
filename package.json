@@ -6,10 +6,13 @@
   "dependencies": {
     "@babel/core": "^7.1.5",
     "@babel/node": "^7.0.0",
+    "@babel/polyfill": "^7.4.4",
     "@babel/preset-env": "^7.1.5",
     "autoprefixer": "^9.6.0",
+    "babel-loader": "^8.0.6",
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
+    "cross-env": "^5.2.0",
     "css-loader": "^3.0.0",
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
@@ -26,9 +29,9 @@
     "webpack-cli": "^3.3.5"
   },
   "scripts": {
-    "dev:server": "nodemon --exec babel-node init.js --delay 2",
-    "dev:assets": "WEBPACK_ENV=development webpack",
-    "build:assets": "WEBPACK_ENV=production webpack"
+    "dev:server": "nodemon --exec babel-node init.js --delay 2 --ignore 'scss' ",
+    "dev:assets": "cross-env WEBPACK_ENV=development webpack -w",
+    "build:assets": "cross-env WEBPACK_ENV=production webpack"
   },
   "devDependencies": {
     "eslint": "^5.16.0",
