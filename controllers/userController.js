@@ -14,14 +14,14 @@ export const postJoin = async (req, res, next) => {
     res.status(400);
     res.render("join", { pageTitle: "Join" });
   } else {
-    try{
-    const user = await User({
-      name, 
-      email
-    });
-    await User.register(user, password);
-    next();
-    } catch(error){
+    try {
+      const user = await User({
+        name,
+        email
+      });
+      await User.register(user, password);
+      next();
+    } catch (error) {
       console.log(error);
       res.redirect(routes.home);
     }
@@ -31,15 +31,16 @@ export const postJoin = async (req, res, next) => {
 export const getLogin = (req, res) =>
   res.render("login", { pageTitle: "Log In" });
 
-export const postLogin = passport.authenticate('local', {
+export const postLogin = passport.authenticate("local", {
   failureRedirect: routes.login,
-  successRedirect: routes.home  
-}) 
+  successRedirect: routes.home
+});
+
 export const githubLogin = passport.authenticate("github");
 
 export const githubLoginCallback = async (_, __, profile, cb) => {
-  const { 
-    _json: { id, avatar_url: avatarUrl, name, email} 
+  const {
+    _json: { id, avatar_url: avatarUrl, name, email }
   } = profile;
   try {
     const user = await User.findOne({ email });
@@ -94,7 +95,6 @@ export const postFacebookLogin = (req, res) => {
   res.redirect(routes.home);
 };
 
-
 export const logout = (req, res) => {
   req.logout();
   res.redirect(routes.home);
@@ -110,6 +110,7 @@ export const userDetail = async (req, res) => {
   } = req;
   try {
     const user = await User.findById(id).populate("videos");
+    console.log(user);
     res.render("userDetail", { pageTitle: "User Detail", user });
   } catch (error) {
     res.redirect(routes.home);
@@ -135,7 +136,7 @@ export const postEditProfile = async (req, res) => {
     res.redirect(routes.editProfile);
   }
 };
-  
+
 export const getChangePassword = (req, res) =>
   res.render("changePassword", { pageTitle: "Change Password" });
 
@@ -155,4 +156,4 @@ export const postChangePassword = async (req, res) => {
     res.status(400);
     res.redirect(`/users/${routes.changePassword}`);
   }
-};  
+};
